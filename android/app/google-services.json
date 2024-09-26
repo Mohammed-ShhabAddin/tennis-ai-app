@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8721182007",
+    "project_id": "tennis-ai-app",
+    "storage_bucket": "tennis-ai-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8721182007:android:28a1d9fa28066c4b1e7eb2",
+        "android_client_info": {
+          "package_name": "com.example.tennis_ai_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi26MgKVR1BGmc327OTMpP3sORvkoTKKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
