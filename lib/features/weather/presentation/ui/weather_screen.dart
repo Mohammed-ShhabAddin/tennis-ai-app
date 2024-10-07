@@ -20,17 +20,16 @@ class WeatherScreen extends StatelessWidget {
     final screenWidth = mediaQuery.size.width;
 
     return BlocProvider(
-      create: (_) => GetIt.instance<WeatherCubit>()..fetchWeather(city),
-      child: Scaffold(
-        backgroundColor: AppColors.blueColor.withOpacity(0.75),
-        body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: screenHeight -
-                  mediaQuery.padding.top -
-                  mediaQuery.padding.bottom,
-            ),
-            child: IntrinsicHeight(
+        create: (_) => GetIt.instance<WeatherCubit>()..fetchWeather(city),
+        child: Scaffold(
+          backgroundColor: AppColors.blueColor.withOpacity(0.75),
+          body: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: screenHeight -
+                    mediaQuery.padding.top -
+                    mediaQuery.padding.bottom,
+              ),
               child: Stack(
                 children: [
                   Positioned(
@@ -49,7 +48,7 @@ class WeatherScreen extends StatelessWidget {
                           ),
                           SizedBox(height: screenHeight * 0.02),
                           Text(
-                            'الطقس في $city',
+                            'Weather in $city',
                             style: TextStyle(
                               fontSize: screenWidth * 0.08,
                               fontWeight: FontWeight.bold,
@@ -63,7 +62,7 @@ class WeatherScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.2,
+                      horizontal: screenWidth * 0.05,
                       vertical: screenHeight * 0.02,
                     ),
                     child: Column(
@@ -79,7 +78,7 @@ class WeatherScreen extends StatelessWidget {
                                   const CircularProgressIndicator(),
                                   SizedBox(height: screenHeight * 0.02),
                                   Text(
-                                    'جارٍ تحميل البيانات...',
+                                    'Loading data...',
                                     style: TextStyle(
                                       fontSize: screenWidth * 0.05,
                                       color: Colors.white,
@@ -90,7 +89,6 @@ class WeatherScreen extends StatelessWidget {
                               );
                             } else if (state is WeatherLoaded) {
                               return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.network(
                                     state.weather.conditionIcon,
@@ -98,49 +96,50 @@ class WeatherScreen extends StatelessWidget {
                                     width: screenWidth * 0.2,
                                   ),
                                   SizedBox(height: screenHeight * 0.02),
-                                  Text(
-                                    'درجة الحرارة: ${state.weather.temperature} °C',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.05,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Text(
-                                    'سرعة الرياح: ${state.weather.windSpeed} كيلومتر/س',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.05,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Text(
-                                    'الرطوبة: ${state.weather.humidity}%',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.05,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Text(
-                                    'الرؤية: ${state.weather.visibility} كم',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.05,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Text(
-                                    'الحالة: ${state.weather.conditionText}',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.05,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
+
+                                  SizedBox(height: screenHeight * 0.04),
+                                  // Grid of weather details
+                                  GridView.count(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 20,
+                                    children: [
+                                      WeatherDetailItem(
+                                        icon: Icons.thermostat_outlined,
+                                        label: 'Temp',
+                                        value:
+                                            '${state.weather.temperature} °C',
+                                      ),
+                                      WeatherDetailItem(
+                                        icon: Icons.air,
+                                        label: 'Wind',
+                                        value:
+                                            '${state.weather.windSpeed} km/h',
+                                      ),
+                                      WeatherDetailItem(
+                                        icon: Icons.opacity,
+                                        label: 'Humidity',
+                                        value: '${state.weather.humidity}%',
+                                      ),
+                                      WeatherDetailItem(
+                                        icon: Icons.visibility,
+                                        label: 'Visibility',
+                                        value: '${state.weather.visibility} km',
+                                      ),
+                                      WeatherDetailItem(
+                                        icon: Icons.cloud,
+                                        label: 'Condition',
+                                        value: state.weather.conditionText,
+                                      ),
+                                      const WeatherDetailItem(
+                                        icon: Icons.sports_tennis_rounded,
+                                        label: '....',
+                                        value: '...',
+                                      ),
+                                    ],
                                   ),
                                 ],
                               );
@@ -155,7 +154,7 @@ class WeatherScreen extends StatelessWidget {
                               );
                             } else {
                               return Text(
-                                'لا توجد بيانات',
+                                'No data available',
                                 style: TextStyle(
                                   fontSize: screenWidth * 0.05,
                                   color: Colors.white,
@@ -172,8 +171,50 @@ class WeatherScreen extends StatelessWidget {
               ),
             ),
           ),
+        ));
+  }
+}
+
+class WeatherDetailItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const WeatherDetailItem({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+          size: 30,
         ),
-      ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 14,
+          ),
+        ),
+      ],
     );
   }
 }
