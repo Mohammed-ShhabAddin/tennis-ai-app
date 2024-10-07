@@ -6,6 +6,8 @@ import 'package:tennis_ai_app/features/onboarding/onboarding_screen.dart';
 import 'core/di/dependency_injection.dart';
 import 'features/auth/data/repos/auth_repository.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
+import 'features/weather/domain/use_cases/get_weather_usecase.dart';
+import 'features/weather/presentation/cubit/weather_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(GetIt.instance<AuthRepository>()),
+        ),
+        BlocProvider<WeatherCubit>(
+          create: (context) => WeatherCubit(GetIt.instance<GetWeather>()),
         ),
       ],
       child: MaterialApp(

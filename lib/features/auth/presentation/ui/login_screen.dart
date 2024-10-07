@@ -8,6 +8,7 @@ import 'package:tennis_ai_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:tennis_ai_app/features/auth/presentation/ui/signup_screen.dart';
 import 'package:tennis_ai_app/features/auth/presentation/ui/widgets/custom_text_form_field.dart';
 import 'package:tennis_ai_app/features/auth/presentation/ui/widgets/having_account_widget.dart';
+import 'package:tennis_ai_app/features/location/presentation/location_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -17,7 +18,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MediaQuery for responsive design
     final mediaQuery = MediaQuery.of(context);
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
@@ -70,7 +70,6 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: screenHeight * 0.25),
-                      // Email Field
                       CustomTextFormField(
                         controller: emailController,
                         labelText: 'Email',
@@ -103,7 +102,6 @@ class LoginScreen extends StatelessWidget {
                         // },
                       ),
                       SizedBox(height: screenHeight * 0.05),
-                      // Login Button with BlocConsumer
                       BlocConsumer<AuthCubit, AuthState>(
                         listener: (context, state) {
                           if (state is AuthSuccess) {
@@ -114,14 +112,13 @@ class LoginScreen extends StatelessWidget {
                               ),
                             );
                             // Navigate to HomeScreen
-                            // Navigator.pushAndRemoveUntil(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         HomeScreen(user: state.user),
-                            //   ),
-                            //   (route) => false,
-                            // );
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LocationScreen(),
+                              ),
+                              (route) => false,
+                            );
                           } else if (state is AuthError) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -171,8 +168,6 @@ class LoginScreen extends StatelessWidget {
                                   );
                                   return;
                                 }
-
-                                // Optional: Additional validation can be added here
 
                                 final loginModel = LoginModel(
                                   email: email,

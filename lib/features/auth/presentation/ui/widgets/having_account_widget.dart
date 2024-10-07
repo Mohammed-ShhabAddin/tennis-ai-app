@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/colors.dart';
-import '../signup_screen.dart';
 
 class HavingAccountWidget extends StatelessWidget {
   const HavingAccountWidget({
