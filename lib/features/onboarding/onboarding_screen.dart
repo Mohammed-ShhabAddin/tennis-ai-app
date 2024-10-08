@@ -4,6 +4,7 @@ import '../../core/theme/colors.dart';
 import '../../core/utilies/assets.dart';
 import '../../core/utilies/strings.dart';
 import '../../core/widgets/curved_shape_widget.dart';
+import '../../core/widgets/gradient_button.dart';
 import '../auth/presentation/ui/welcome_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -17,7 +18,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  // List of onboarding pages data
   final List<OnboardingPageData> _onboardingPages = [
     OnboardingPageData(
       image: AppAssets.onboarding1,
@@ -29,7 +29,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
-  // Navigate to the next page or to the WelcomeScreen
   void _onNextPressed() {
     if (_currentPage < _onboardingPages.length - 1) {
       _pageController.nextPage(
@@ -44,7 +43,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  // Update the current page index
   void _onPageChanged(int page) {
     setState(() {
       _currentPage = page;
@@ -53,7 +51,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtain screen size for responsive design
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -90,13 +87,11 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  // Build the gradient background container
   Widget _buildBackground(Size size) {
     return const Positioned(
         top: 0, left: 0, right: 0, child: CurvedShapeWidget());
   }
 
-  // Build the bottom section with dots and button
   Widget _buildBottomSection() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +114,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  // Build individual dots for page indicators
   Widget _buildDot(bool isActive) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -133,7 +127,6 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-// Data model for onboarding pages
 class OnboardingPageData {
   final String image;
   final String text;
@@ -141,7 +134,6 @@ class OnboardingPageData {
   OnboardingPageData({required this.image, required this.text});
 }
 
-// Widget for a single onboarding page
 class OnboardingPage extends StatelessWidget {
   final String image;
   final String text;
@@ -183,59 +175,6 @@ class OnboardingPage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-// Reusable Gradient Button Widget
-class GradientButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-
-  const GradientButton({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.xBlueColor.withOpacity(0.75),
-            AppColors.xgreenColor.withOpacity(0.75),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent, // Makes the button transparent
-          shadowColor: Colors.transparent, // Removes the shadow
-          minimumSize: Size(size.width * 0.3, 50), // 30% width and fixed height
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        onPressed: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
