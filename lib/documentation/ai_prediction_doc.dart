@@ -1,4 +1,5 @@
-/**
+/*
+ * AI Prediction documentation
  * 
  * 
  * The Prediction Dialog is a dialog box used to display 
