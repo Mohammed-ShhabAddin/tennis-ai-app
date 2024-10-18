@@ -5,15 +5,15 @@ import '../../auth/presentation/ui/widgets/custom_text_form_field.dart';
 import '../../weather/presentation/ui/weather_screen.dart';
 
 class LocationScreen extends StatelessWidget {
-  const LocationScreen({super.key});
+  final TextEditingController cityController = TextEditingController();
+
+  LocationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
-
-    final TextEditingController cityController = TextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.blueColor.withOpacity(0.75),
@@ -64,7 +64,14 @@ class LocationScreen extends StatelessWidget {
                       SizedBox(height: screenHeight * 0.3),
                       CustomTextFormField(
                         controller: cityController,
-                        labelText: 'city name eg. cairo ',
+                        labelText: '',
+                        hintText: 'City name e.g, Cairo',
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'please enter city name';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.05),
                       ElevatedButton(

@@ -10,12 +10,11 @@ class CurvedShapeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtain screen size for responsive design
     final size = MediaQuery.of(context).size;
 
     return Container(
       width: double.infinity,
-      height: size.height * 0.5, // 50% of screen height
+      height: size.height * 0.5,
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [
