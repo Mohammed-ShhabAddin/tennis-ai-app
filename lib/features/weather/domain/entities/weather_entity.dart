@@ -1,5 +1,3 @@
-// lib/features/weather/domain/entities/weather_entity.dart
-
 class WeatherEntity {
   final double temperature;
   final double windSpeed;

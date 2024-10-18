@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:tennis_ai_app/core/theme/colors.dart';
 
-/// Reusable Gradient Button Widget
 class GradientButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final double width;
   final double height;
 
   const GradientButton({
     super.key,
     required this.text,
     required this.onPressed,
-    this.width = double.infinity,
     this.height = 50.0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
     return Container(
-      width: width,
+      width: screenWidth / 2,
       height: height,
       decoration: BoxDecoration(
         gradient: LinearGradient(
