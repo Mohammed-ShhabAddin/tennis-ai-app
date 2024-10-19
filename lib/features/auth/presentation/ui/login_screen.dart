@@ -69,37 +69,37 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: screenHeight * 0.25),
+                      SizedBox(height: screenHeight * 0.26),
                       CustomTextFormField(
                         controller: emailController,
                         labelText: 'Email',
-                        // keyboardType: TextInputType.emailAddress,
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter your email';
-                        //   }
-                        //   // Simple email validation
-                        //   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        //     return 'Please enter a valid email';
-                        //   }
-                        //   return null;
-                        // },
+                        inputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          // Simple email validation
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       // Password Field
                       CustomTextFormField(
                         controller: passwordController,
                         labelText: 'Password',
-                        obscureText: true,
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter your password';
-                        //   }
-                        //   if (value.length < 6) {
-                        //     return 'Password must be at least 6 characters';
-                        //   }
-                        //   return null;
-                        // },
+                        isPasswordField: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.05),
                       BlocConsumer<AuthCubit, AuthState>(
@@ -111,11 +111,11 @@ class LoginScreen extends StatelessWidget {
                                 backgroundColor: Colors.green,
                               ),
                             );
-                            // Navigate to HomeScreen
+                            // Navigate to  Location Screen
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const LocationScreen(),
+                                builder: (context) => LocationScreen(),
                               ),
                               (route) => false,
                             );
@@ -199,7 +199,7 @@ class LoginScreen extends StatelessWidget {
                         screenWidth: screenWidth,
                         msgText: ' Don\'t have an account? ',
                         buttonText: 'Sign Up',
-                        navTo: const SignupScreen(),
+                        navTo: SignupScreen(),
                       ),
                       SizedBox(height: paddingBottom),
                     ],

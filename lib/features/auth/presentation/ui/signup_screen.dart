@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/curved_shape_widget.dart';
+import '../../../location/presentation/location_screen.dart';
 import '../../data/models/signup_model.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
@@ -11,7 +12,10 @@ import 'login_screen.dart';
 import 'widgets/having_account_widget.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +23,6 @@ class SignupScreen extends StatelessWidget {
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
     final paddingBottom = mediaQuery.viewInsets.bottom;
-
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.blueColor.withOpacity(0.75),
@@ -74,16 +74,43 @@ class SignupScreen extends StatelessWidget {
                       CustomTextFormField(
                         controller: nameController,
                         labelText: 'Name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       CustomTextFormField(
                         controller: emailController,
                         labelText: 'Email',
+                        inputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          // Simple email validation
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       CustomTextFormField(
                         controller: passwordController,
                         labelText: 'Password',
+                        isPasswordField: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: screenHeight * 0.05),
                       BlocConsumer<AuthCubit, AuthState>(
@@ -92,6 +119,14 @@ class SignupScreen extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Signup successful!')),
+                            );
+
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LocationScreen(),
+                              ),
+                              (route) => false,
                             );
                           } else if (state is AuthError) {
                             ScaffoldMessenger.of(context).showSnackBar(
